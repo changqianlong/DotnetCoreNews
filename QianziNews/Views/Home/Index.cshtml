@@ -1,0 +1,219 @@
+﻿@model HomeViewModel
+@{
+    ViewData["Title"] = "主页";
+}
+@*<link href="~/css/index.css" rel="stylesheet" />*@
+    <div class="container">
+        <!--
+    轮播图与顶部新闻栏
+    -->
+        @*<div class="row">
+        <div class="col-lg-8">
+            <div id="myCarousel" class="carousel slide" data-ride="carousel" data-interval="5000">
+                <ol class="carousel-indicators hidden-xs">
+                    <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
+                    <li data-target="#myCarousel" data-slide-to="1"></li>
+                    <li data-target="#myCarousel" data-slide-to="2"></li>
+                    <li data-target="#myCarousel" data-slide-to="3"></li>
+                </ol>
+                <div class="carousel-inner">
+                    @if (Model.BannerNews.Count() > 0)
+                    {
+                        <div class="item active">
+                            <a asp-controller="News" asp-action="Detail" asp-route-Id="@Model.BannerNews.First().Id"><img style="width:700px;height:400px;" src="~/images/@Model.BannerNews.First().Images.First().Url" /></a>
+                            <div class="carousel-caption">@Model.BannerNews.First().Title</div>
+                        </div>
+
+                        @foreach (var item in Model.BannerNews.Skip(1))
+                        {
+                            <a asp-controller="News" asp-action="Detail" asp-route-ID="@item.Id"><img style="width:190px;height:100px;" src="~/images/@item.Images.First().Url" /></a>
+                        }
+                    }
+                </div>
+                <div class="left carousel-control" data-target="#myCarousel" data-slide="prev">
+                    <span class="icon-prev"></span>
+                </div>
+                <div class="right carousel-control" data-target="#myCarousel" data-slide="next">
+                    <span class="icon-next"></span>
+                </div>
+            </div>
+        </div>*@
+
+
+        <section class="featured-post-area no-padding">
+            <div class="container">
+                <div class="row ts-gutter-20">
+                    <div class="col-lg-7 col-md-12 pad-r">
+                        <div id="featured-slider" class="owl-carousel owl-theme featured-slider">
+                            @if (Model.BannerNews.Count() > 0)
+                            {
+                                @foreach (var item in Model.BannerNews.Skip(1))
+                                {
+                                    <div class="item post-overaly-style" style="background-image:url(~/images/@item.Images.First().Url)">
+                                        <div class="featured-post">
+                                            <a href="#" class="image-link">&nbsp;</a>
+                                            <div class="overlay-post-content">
+                                                <div class="post-content">
+                                                    <div class="grid-category">
+                                                        <a class="post-cat fashion" href="#">@Model.Categories.First()</a>
+                                                        <a class="post-cat lifestyle" href="#">Lifestyle</a>
+                                                    </div>
+
+                                                    <h2 class="post-title title-lg">
+                                                        <a asp-controller="News" asp-action="Detail" asp-route-Id="@Model.BannerNews.First().Id">@Model.BannerNews.First().Title</a>
+                                                    </h2>
+                                                    <div class="post-meta">
+                                                        <ul>
+                                                            <li><a href="#"><i class="fa fa-user"></i> John Wick</a></li>
+                                                            <li><a href="#"><i class="icon icon-clock"></i> 20 July, 2020</a></li>
+                                                            <li><a href="#" class="view"><i class="icon icon-fire"></i> 354k</a></li>
+                                                        </ul>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div><!--/ Featured post end -->
+                                    </div><!-- Item 1 end -->
+                                    }
+                                }
+                            </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+
+
+        <div class="col-lg-4">
+            <h3 class="h3 mypanel-title">今日热点</h3>
+            @foreach (var group in Model.TopNewsGroup)
+            {
+                int i = 0;
+                foreach (var item in group)
+                {
+                    <div>
+                        @if (i++ == 0)
+                        {
+                            <h3 class="h3"><a asp-action="Detail" asp-controller="News" asp-route-Id="@item.Id">@item.Title</a></h3>
+
+                        }
+                        else
+                        {
+                            <h5 class="h5"><a asp-action="Detail" asp-controller="News" asp-route-Id="@item.Id">@item.Title</a></h5>
+
+                        }
+                    </div>
+
+                }
+
+            }
+        </div>
+    </div>
+
+
+
+                        <!--
+                        分类新闻栏
+                    -->
+
+                        @if (Model.CategoryNews != null)
+                        {
+                            foreach (var c in Model.Categories)
+                            {
+
+                                var items = Model.CategoryNews.News.Where(p => p.Category.Equals(c));
+                                var imageItems = items.Where(n => n.Images.Count() > 0);
+                                items = items.Take(5);
+
+                                <div class="mypanel row">
+                                    <div class="mypanel-heading col-xs-12">
+                                        <div><a href="@Url.Action("Category", "Home", new { category = c })" class="mypanel-title">@c</a></div>
+                                    </div>
+                                    <div class="mypanel-body col-xs-12">
+                                        @*
+                                        <!--
+                                            分类图片新闻区域
+                                        -->
+
+                                        @{
+                                            int i = 0;
+                                        }
+                                        <div id=@("carousel"+i) class="carousel slide col-xs-3">
+                                            <ol class="carousel-indicators">
+                                                <li data-target=@("#carousel"+i) data-slide-to="0" class="active"></li>
+                                                <li data-target="@("#carousel"+i)" data-slide-to="1"></li>
+                                                <li data-target="@("#carousel"+i)" data-slide-to="2"></li>
+                                                <li data-target="@("#carousel"+i)" data-slide-to="3"></li>
+                                            </ol>
+                                            <div class="carousel-inner">
+
+                                                @if (imageItems.Count() > 0)
+                                                {
+                                                    <div class="item active">
+                                                        <img style="height:200px;" src="~/images/@imageItems.First().Images.First().Url" />
+                                                        <div class="carousel-caption">
+                                                            @imageItems.First().Title
+                                                        </div>
+                                                    </div>
+                                                    @foreach (var item in imageItems)
+                                                    {
+
+                                                        <div class="item">
+                                                            <img style="height:200px;" src="~/images/@item.Images.First().Url" />
+                                                            <div class="carousel-caption">
+                                                                @item.Title
+                                                            </div>
+                                                        </div>
+
+                                                    }
+                                                }
+
+
+
+                                            </div>
+                                            <a class="left carousel-control" href=@("#carousel"+i) data-slide="prev">
+                                                <span class="icon-prev"></span>
+                                                <span class="sr-only">Previuos</span>
+                                            </a>
+                                            <a class="right carousel-control" href="@("#carousel"+i)" data-slide="next">
+                                                <span class="icon-next"></span>
+                                                <span class="sr-only">Next</span>
+                                            </a>
+                                        </div>
+                                        *@
+
+                                        <div class="col-md-4 category">
+                                            @if (imageItems.Count() > 0)
+                                            {
+                                                <a asp-controller="News" asp-action="Detail" asp-route-Id="@imageItems.First().Id"><img src="~/images/@imageItems.First().Images.First().Url" /></a>
+
+                                            }
+
+                                        </div>
+
+                                        <!--
+                                        普通新闻区域
+                                    -->
+                                        <div class="col-md-8">
+                                            <div class="mypanel-news">
+                                                <dl>
+                                                    @if (items.Count() > 0)
+                                                    {
+                                                        <dt><a>@items.First().Title</a></dt>
+                                                        @foreach (var item in items.Skip(1))
+                                                        {
+                                                            <dd><a>@item.Title</a></dd>
+
+                                                        }
+
+                                                    }
+
+                                                </dl>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            }
+                        }
+
+
+

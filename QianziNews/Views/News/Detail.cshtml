@@ -1,0 +1,65 @@
+﻿@using Microsoft.AspNetCore.Authorization;
+@using QianziNews.Authorization;
+@model DetailViewModel;
+@inject IAuthorizationService AuthorizationService
+@{
+    ViewData["Title"] = "Detail";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+    <div class="container">
+
+
+        <div class="row">
+            <div class="panel">
+                <div class="panel-heading panel-default">
+                    <h1 class="h1 text-center">
+                        @Model.News.Title
+                    </h1>
+                    <span class="pull-right">@Model.News.PostTime</span>
+                    <span>来源:@Model.News.Source</span>
+                </div>
+                <div class="panel-body lead">
+                    @Html.Raw(Model.News.Content)
+                </div>
+                <div class="panel-footer text-right">
+                    <span>责编:@Model.News.Author</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="panel panel-primary">
+                <div class="panel-heading">
+                    <div class="panel-title">发表评论</div>
+
+                </div>
+                <div class="panel-body">
+                    <form class="form-horizontal" asp-action="AddComment" asp-controller="Commnet" method="post">
+                        <input type="hidden" name="Id" value="@Model.News.Id" />
+                        <input type="hidden" name="returnUrl" value="@(Url.Action("Detail","News"))" />
+                        <div class="form-group">
+                            <div class="col-sm-10">
+                                <textarea class="form-control" name="Content" rows="10"></textarea>
+                            </div>
+                            <div class="col-sm-2 mybtn">
+                                @if (AuthorizationService.AuthorizeAsync(User, null, Operations.Comment).Result.Succeeded)
+                                {
+
+                                    <button type="submit" class="btn btn-primary">发表评论</button>
+
+
+                                }
+                                else
+                                {
+                                    <a class="btn btn-primary" asp-action="Login" asp-controller="Account">登录</a>
+
+                                }
+                                <a class="btn btn-info" asp-action="Index" asp-controller="Commnet" asp-route-Id="@Model.News.Id">查看评论</a>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>

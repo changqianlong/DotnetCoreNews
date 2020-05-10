@@ -1,0 +1,49 @@
+﻿@model QianziNews.Data.News
+@{
+    Layout = "/Views/Manage/_ManageLayout.cshtml";
+    ViewData["Title"] = "EditNews";
+}
+
+
+@if (ViewData["Message"] != null)
+{
+    if (ViewData["Message"].ToString() == "添加成功!")
+    {
+        <div class="alert alert-success">@ViewData["Message"]</div>
+    }
+    else
+    {
+        <div class="alert alert-danger">@ViewData["Message"]</div>
+
+    }
+
+
+}
+
+
+
+    <form method="post" enctype="multipart/form-data" class="form-horizontal">
+        <input type="hidden" asp-for="Id" value="@Model.Id" />
+        <input type="hidden" asp-for="PostTime" value=@DateTime.Now />
+        <div class="panel panel-primary">
+            <div class="panel-heading">
+                <h3 class="h3">编辑新闻</h3>
+            </div>
+            @await Html.PartialAsync("_NewsInformation")
+            @if (Model.Images != null)
+            {
+                foreach (var i in Model.Images)
+                {
+                    <img src="~/images/@i.Url" alt=@i width="66%" />
+
+                }
+
+            }
+            <div class="panel-footer text-right">
+                <a class="btn btn-primary" asp-action="Index">返回</a>
+                <input type="submit" value="保存" class="btn btn-primary" />
+                <button class="btn btn-primary">重置</button>
+            </div>
+        </div>
+    </form>
+

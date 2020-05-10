@@ -1,0 +1,47 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Content Include="wwwroot\purple\node_modules\bootstrap-datepicker\dist\css\bootstrap-datepicker.min.css" />
+    <Content Include="wwwroot\purple\node_modules\jquery-bar-rating\dist\themes\css-stars.css" />
+    <Content Include="wwwroot\purple\node_modules\mdi\css\materialdesignicons.min.css" />
+    <Content Include="wwwroot\purple\node_modules\mdi\fonts\materialdesignicons-webfont.eot" />
+    <Content Include="wwwroot\purple\node_modules\mdi\fonts\materialdesignicons-webfont.ttf" />
+    <Content Include="wwwroot\purple\node_modules\mdi\fonts\materialdesignicons-webfont.woff" />
+    <Content Include="wwwroot\purple\node_modules\perfect-scrollbar\dist\css\perfect-scrollbar.min.css" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="wwwroot\purple\node_modules\bootstrap\dist\js\bootstrap.min.js" />
+    <None Include="wwwroot\purple\node_modules\chart.js\dist\Chart.min.js" />
+    <None Include="wwwroot\purple\node_modules\jquery\dist\jquery.min.js" />
+    <None Include="wwwroot\purple\node_modules\mdi\fonts\materialdesignicons-webfont.svg" />
+    <None Include="wwwroot\purple\node_modules\mdi\fonts\materialdesignicons-webfont.woff2" />
+    <None Include="wwwroot\purple\node_modules\perfect-scrollbar\dist\js\perfect-scrollbar.jquery.min.js" />
+    <None Include="wwwroot\purple\node_modules\popper.js\dist\umd\popper.min.js" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="3.1.2" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="3.1.2">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="3.1.2" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="3.1.2">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="3.1.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="wwwroot\images\" />
+  </ItemGroup>
+
+
+
+</Project>

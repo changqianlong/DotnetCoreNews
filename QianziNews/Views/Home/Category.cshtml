@@ -1,0 +1,60 @@
+﻿@model CategoryViewModel
+@{
+
+}
+
+<div class="container">
+    <div class="row">
+        <div id="cgCarousel" class="carousel slide" data-ride="carousel">
+            <ol class="carousel-indicators">
+                <li data-target="#cgCarousel" data-slide-to="0"></li>
+                <li data-target="#cgCarousel" data-slide-to="1"></li>
+                <li data-target="#cgCarousel" data-slide-to="2"></li>
+                <li data-target="#cgCarousel" data-slide-to="3"></li>
+            </ol>
+            <div class="carousel-inner">
+                @if (Model.BannerNews.Count() > 0)
+                {
+                    <div class="item active">
+                        <a asp-controller="News" asp-action="Detail" asp-route-Id="@Model.BannerNews.First().Id"><img style="width:300px;height:250px;" src="~/images/@Model.BannerNews.First().Images.First().Url" /></a>
+                    </div>
+                    @foreach (var item in Model.BannerNews.Skip(1))
+                    {
+                        <div class="item">
+                            <a asp-controller="News" asp-action="Detail" asp-route-Id="@item.Id"><img style="width:300px;height:250px;" src="~/images/@item.Images.First().Url" /></a>
+                        </div>
+                    }
+
+                }
+
+            </div>
+        </div>
+    </div>
+    @if (Model.News.Count() > 0)
+    {
+        @foreach (var item in Model.News)
+        {
+            <div class="row">
+                <div class="main-news row">
+                    @if (item.Images.Count() > 0)
+                    {
+                        <div class="col-xs-3 left-side"><a><img style="width:300px;height:250px;" src=~/images/@item.Images.First().Url /></a></div>
+
+                    }
+
+                    <div class="right-side">
+                        <p><a asp-controller="News" asp-action="Detail" asp-route-ID="@item.Id">@item.Title</a></p>
+                        <div class="news-info">
+                            <span class="post-time pull-right">@item.PostTime</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        }
+
+    }
+
+</div>
+
+

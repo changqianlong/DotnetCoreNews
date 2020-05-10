@@ -1,0 +1,31 @@
+﻿@model HomeViewModel
+
+<!--新闻类别-->
+@if (Model.CategoryNews != null)
+{
+    foreach (var c in Model.Categories)
+    {
+
+        var items = Model.CategoryNews.News.Where(p => p.Category.Equals(c));
+        var imageItems = items.Where(n => n.Images.Count() > 0);
+        items = items.Take(5);
+
+        <!--新闻类别标签-->
+        <div class="col-lg-4 col-md-12">
+            <div class="ts-category">
+                <ul class="ts-category-list">
+                    <li>
+                        <a href="@Url.Action("Category", "Home", new { category = c })" style="background-image: url(/foreground/images/news/category/category1.png)">
+
+                            <span>  @c </span>
+                            <span class="bar"></span>
+                            <span class="category-count">新闻数量</span>
+                        </a>
+                    </li><!-- end list 1 -->
+
+                </ul>
+            </div>
+        </div><!-- Sidebar Col end -->
+
+    }
+}

@@ -1,0 +1,29 @@
+﻿@model QianziNews.Data.News;
+@{
+    Layout = "/Views/Manage/_ManageLayout.cshtml";
+    ViewData["Title"] = "添加新闻";
+}
+@if (ViewData["errorMessage"] != null)
+{
+    <div class="alert alert-danger">@ViewData["errorMessage"]</div>
+}
+
+<form method="post" enctype="multipart/form-data" class="form-horizontal">
+    @Html.ValidationSummary()
+    <input type="hidden" asp-for="PostTime" value=@DateTime.Now />
+
+    <div class="panel panel-primary">
+        <div class="panel-heading">
+            <h3 class="h3">添加新闻</h3>
+        </div>
+
+        @await Html.PartialAsync("_NewsInformation")
+
+        <div class="panel-footer text-right">
+            <input type="submit" value="添加" class="btn btn-primary" />
+            <button class="btn btn-primary">重置</button>
+        </div>
+    </div>
+</form>
+
+

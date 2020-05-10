@@ -1,0 +1,109 @@
+﻿@model CommentViewModel
+@using Microsoft.AspNetCore.Authorization
+@using QianziNews.Authorization
+@inject IAuthorizationService AuthorizationService
+@{
+    ViewData["Title"] = "新闻评论";
+}
+<link rel="stylesheet" href="~/css/Comment/index.css" />
+
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <div class="panel-title">评论</div>
+    </div>
+    <div class="panel-body">
+        <div class="comment-main">
+            <div class="comment-title"><em class="title-line"></em>热门评论</div>
+            @foreach (var item in Model.HotComments)
+            {
+                <div class="comment-item">
+                    <div class="item-head">
+                        <span class="author">@item.UserName</span>
+                        <span class="posttime pull-right">@item.PostTime</span>
+                    </div>
+                    <div class="item-body">
+                        @item.Content
+                    </div>
+                    <div class="item-footer text-right">
+                        <a class="item-zan" asp-controller="Comment" asp-action="Zan" asp-route-ID="@item.Id">赞<em>[@item.Zan]</em></a>
+                    </div>
+                </div>
+
+            }
+        </div>
+
+        <div class="comment-main">
+            <div class="comment-title"><em class="title-line"></em>最新评论</div>
+            @{
+                var skips = (Model.CurrentPage - 1) * Model.LatestPerPageCounts;
+            }
+            @foreach (var item in Model.LatestComments.Skip(skips).Take(Model.LatestPerPageCounts))
+            {
+                <div class="comment-item">
+                    <div class="item-head">
+                        <span class="author">@item.UserName</span>
+                        <span class="posttime pull-right">@item.PostTime</span>
+                    </div>
+                    <div class="item-body">
+                        @item.Content
+                    </div>
+                    <div class="item-footer text-right">
+                        <a class="item-zan" asp-controller="Comment" asp-action="Zan" asp-route-ID="@item.Id">赞<em>[@item.Zan]</em></a>
+                    </div>
+                </div>
+
+            }
+        </div>
+
+
+    </div>
+
+    <div class="panel-footer text-right">
+        <div class="mypage-navigation">
+            <nav>
+                <ul class="pagination">
+                    <li>
+                        <a><span class="glyphicon glyphicon-menu-left"></span></a>
+                    </li>
+                    @for (int i = 1; i <= Model.PageCounts; i++)
+                    {
+                        <li>
+                            <a asp-controller="Comment" asp-action="Index" asp-route-page="@((Model.CurrentPage-1)<1?1:Model.CurrentPage-1)"><span type="button" class="btn btn-primary btn-fw">上一页</span></a>
+                        </li>
+                        <li ><a asp-controller="Comment" asp-action="Index" asp-route-Id="@Model.News.Id" asp-route-page="@i"><span type="button" class="btn btn-default">@i</span></a></li>
+                        <li>
+                            <a asp-controller="Comment" asp-action="Index" asp-route-page="@((Model.CurrentPage-1)<1?1:Model.CurrentPage-1)"><span type="button" class="btn btn-primary btn-fw">下一页</span></a>
+                        </li>
+                    }
+                    <li><a><span class="glyphicon glyphicon-menu-right"></span></a></li>
+                </ul>
+            </nav>
+        </div>
+
+        @using (Html.BeginForm("AddComment", "Comment", FormMethod.Post, new { @class = "form-horizontal" }))
+        {
+            var path = Context.Request.Path;
+            <input type="hidden" name="Id" value="@(Model.News?.Id??1145)" />
+            <input type="hidden" name="returnUrl" value="@path" />
+            <div class="form-group">
+                <div class="col-sm-10">
+                    <textarea class="form-control" name="Content" rows="10"></textarea>
+                </div>
+                <div class="col-sm-2">
+                    @if (AuthorizationService.AuthorizeAsync(User, null, Operations.Comment).Result.Succeeded)
+                    {
+                        <button class="btn btn-primary bottom" type="submit">发表评论</button>
+
+                    }
+                    else
+                    {
+                        <a class="btn btn-primary" asp-action="Login" asp-controller="Account" asp-route-returnUrl="@path">登录</a>
+
+                    }
+                </div>
+            </div>
+        }
+
+    </div>
+</div>
+

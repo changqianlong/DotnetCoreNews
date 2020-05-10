@@ -1,0 +1,96 @@
+﻿@using QianziNews.Data;
+@model NewsIndexViewModel;
+@{
+    Layout = "/Views/Manage/_ManageLayout.cshtml";
+    ViewData["Title"] = "Index";
+}
+@if (TempData["Message"] != null)
+{
+    <div class="alert alert-success">@TempData["Message"]</div>
+}
+else if (ViewData["errorMessage"] != null)
+{
+    <div class="alert alert-danger">@ViewData["errorMessage"]</div>
+
+}
+
+
+
+<div class="container-fluid">
+    <div class="row panel panel-primary">
+        <div class="panel-heading">
+            <h3 class="h3 text-left">新闻管理</h3>
+        </div>
+        <div class="panel-body text-center">
+            <table class="table table-responsive table-bordered">
+                <thead>
+                    <tr>
+                        @*<th>@nameof(News.Id)</th>
+                        <th>@nameof(News.Title)</th>
+                        <th>@nameof(News.Category)</th>
+                        <th>@nameof(News.Source)</th>
+                        <th>@nameof(News.Author)</th>
+                        <th>@nameof(News.PostTime)</th>*@
+
+                        <th>编号</th>
+                        <th>新闻标题</th>
+                        <th>新闻类别</th>
+                        <th>新闻来源</th>
+                        <th>作者</th>
+                        <th>提交时间</th>
+                        <th>操作</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @{
+                        var skips = (Model.CurrentPage - 1) * Model.PerPageCounts;
+                    }
+                    @foreach (var item in Model.News.Skip(skips).Take(Model.PerPageCounts))
+                    {
+                        <tr>
+                            <td>@item.Id</td>
+                            <td><a asp-action="Detail" asp-route-Id=@item.Id>@item.Title</a></td>
+                            <td>@item.Category</td>
+                            <td>@item.Source</td>
+                            <td>@item.Author</td>
+                            <td>@item.PostTime</td>
+                            <td>
+                                <a asp-action="EditNews" asp-route-Id=@item.Id>编辑</a>
+                                <a asp-action="DeleteNews" asp-route-Id=@item.Id class="pull-right">删除</a>
+                            </td>
+                        </tr>
+
+                    }
+                </tbody>
+                <tfoot>
+                </tfoot>
+            </table>
+            <a asp-action="DelNews" class="btn btn-primary pull-right">全部删除</a>
+            <a asp-action="AddNews" class="btn btn-primary pull-right">添加新闻</a>
+        </div>
+        <div class="panel-footer">
+            <div class="mypage-navigation">
+                <nav>
+                    <ul class="pagination">
+                        <li>
+                            <a asp-controller="News" asp-action="Index" asp-route-page="@((Model.CurrentPage-1)<1?1:Model.CurrentPage-1)"><span type="button" class="btn btn-primary btn-fw">上一页</span></a>
+                        </li>
+
+                        @for (int i = 1; i <= Model.PageCounts; i++)
+                        {
+                            <li>
+                                <a asp-controller="News" asp-action="Index" asp-route-page="@i">
+                                    <span type="button" class="btn btn-success btn-fw">
+                                        @i
+                                    </span>
+                                </a>
+                            </li>
+                        }
+                        <li><a asp-controller="News" asp-action="Index" asp-route-page="@((Model.CurrentPage+1)>Model.PageCounts?Model.PageCounts:Model.CurrentPage+1)"><span type="button" class="btn btn-primary btn-fw">下一页</span></a></li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    </div>
+</div>
+

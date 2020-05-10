@@ -1,0 +1,43 @@
+﻿@model SearchViewModel
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<div class="container">
+    <form method="post" class="form-inline">
+        <div class="form-group">
+            <input type="search" class="form-control" name="str" placeholder="Search" />
+        </div>
+        <button type="submit" class="btn btn-default"><span class="glyphicon glyphicon-search">搜索</span></button>
+    </form>
+    <div class="count">
+        <h3>结果:<em>找到"@Model.SearchString"相关内容 @Model.News.Count()个 </em></h3>
+    </div>
+
+    @if (Model.News.Count() == 0)
+    {
+        <div class="fail">&nbsp;&nbsp;对不起,没有找到匹配的结果。</div>
+
+    }
+    else
+    {
+        <div>
+            @foreach (var item in Model.News)
+            {
+                <div class="item">
+                    <div class="title"><a asp-controller="News" asp-action="Detail" asp-route-Id="@item.Id">@item.Title</a></div>
+                    <div class="content">
+                        @item.Content.Substring(0, 80).Trim()......
+                    </div>
+                    <div class="footer">
+                        <span class="time">@item.PostTime</span><span class="other">@item.Author</span><span class="other">@item.Source</span>
+                    </div>
+                </div>
+            }
+
+        </div>
+
+    }
+</div>

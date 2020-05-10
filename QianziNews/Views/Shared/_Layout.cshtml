@@ -1,0 +1,293 @@
+﻿@using Microsoft.AspNetCore.Authorization;
+@using QianziNews.Authorization;
+@using Microsoft.AspNetCore.Identity
+@inject UserManager<ApplicationUser> UserManager
+@inject IAuthorizationService AuthorizationService
+@inject SignInManager<ApplicationUser> SignInManager
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+    <!-- Basic Page Needs
+    ================================================== -->
+    <meta charset="utf-8">
+    <title></title>
+
+    <!-- Mobile Specific Metas
+    ================================================== -->
+
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <!--Favicon-->
+    <link rel="shortcut icon" href="~/foreground/images/favicon.ico" type="image/x-icon">
+    <link rel="icon" href="~/foreground/images/favicon.ico" type="image/x-icon">
+
+    <!-- CSS
+    ================================================== -->
+    <!-- Bootstrap -->
+    <link rel="stylesheet" href="~/foreground/css/bootstrap.min.css">
+    <!-- IconFont -->
+    <link rel="stylesheet" href="~/foreground/css/iconfonts.css">
+    <!-- FontAwesome -->
+    <link rel="stylesheet" href="~/foreground/css/font-awesome.min.css">
+    <!-- Owl Carousel -->
+    <link rel="stylesheet" href="~/foreground/css/owl.carousel.min.css">
+    <link rel="stylesheet" href="~/foreground/css/owl.theme.default.min.css">
+    <!-- magnific -->
+    <link rel="stylesheet" href="~/foreground/css/magnific-popup.css">
+
+    <!-- Template styles-->
+    <link rel="stylesheet" href="~/foreground/css/style.css">
+    <!-- Responsive styles-->
+    <link rel="stylesheet" href="~/foreground/css/responsive.css">
+
+    <!-- Colorbox -->
+    <link rel="stylesheet" href="~/foreground/css/colorbox.css">
+
+    <!-- HTML5 shim, for IE6-8 support of HTML5 elements. All other JS at the end of file. -->
+    <!--[if lt IE 9]>
+      <script src="~/foreground/js/html5shiv.js"></script>
+      <script src="~/foreground/js/respond.min.js"></script>
+    <![endif]-->
+
+</head>
+
+<body>
+    <!-- 顶栏 -->
+    <div class="trending-bar trending-light d-md-block">
+        <div class="container">
+            <div class="row justify-content-between">
+                <!-- 顶部栏 -->
+                <div class="col-md-9 text-center text-md-left">
+                    <p class="trending-title"><i class="tsicon fa fa-bolt"></i> 乾子新闻</p>
+
+                    <!--消息提醒(小)-->
+                    <div id="trending-slide" class="owl-carousel owl-theme trending-slide">
+                        <div class="item">
+                            <div class="post-content">
+                                <h2 class="post-title title-small">
+                                    <a href="#">计算机技术系演讲与辩论协会</a>
+                                </h2>
+                            </div><!-- Post content end -->
+                        </div><!-- Item 1 end -->
+                        <div class="item">
+                            <div class="post-content">
+                                <h2 class="post-title title-small">
+                                    <a href="#">预祝科协【学术诚信】做正确的事，即使没人注视 活动圆满成功</a>
+                                </h2>
+                            </div><!-- Post content end -->
+                        </div><!-- Item 2 end -->
+                    </div><!-- Carousel end -->
+
+                </div><!-- Col end -->
+                <div class="col-md-3 text-md-right text-center">
+                    <div class="ts-date">
+                        <i class="fa fa-calendar-check-o"></i>  @DateTime.Now.ToString("d")
+                    </div>
+                </div><!-- Col end -->
+            </div><!--/ Row end -->
+        </div><!--/ Container end -->
+    </div><!--/ Trending end -->
+    <!-- Header start -->
+    <header id="header" class="header">
+        <div class="container">
+            <div class="row align-items-center justify-content-between">
+                <div class="col-md-3 col-sm-12">
+                    <div class="logo">
+                        <a href="/">
+                            <img src="~/foreground/images/logos/logo.png" alt="">
+                        </a>
+                    </div>
+                </div><!-- logo col end -->
+
+                <div class="col-md-8 col-sm-12 header-right">
+                    <div class="ad-banner float-right">
+                        <a href="#">
+                            <img src="~/foreground/images/banner-image/image1.png" class="img-fluid" alt="">
+                        </a>
+                    </div>
+                </div><!-- header right end -->
+            </div><!-- Row end -->
+        </div><!-- Logo and banner area end -->
+    </header><!--/ Header end -->
+
+    <div class="main-nav clearfix">
+        <div class="container">
+            <div class="row justify-content-between">
+                <nav class="navbar navbar-expand-lg col-lg-8">
+                    <div class="site-nav-inner float-left">
+                        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="true" aria-label="Toggle navigation">
+                            <span class="fa fa-bars"></span>
+                        </button>
+                        <!-- End of Navbar toggler -->
+                        <div id="navbarSupportedContent" class="collapse navbar-collapse navbar-responsive-collapse">
+                            <ul class="nav navbar-nav">
+                                <li>
+                                    <a asp-area="" asp-controller="Home" asp-action="category" asp-route-category="财经">财经</a>
+                                </li>
+
+
+                                <!-- 体育 -->
+                                <li>
+                                    <a asp-area="" asp-controller="Home" asp-action="category" asp-route-category="体育">体育</a>
+                                </li><!-- Tab menu end -->
+                                <!--科技-->
+                                <li>
+                                    <a asp-area="" asp-controller="Home" asp-action="category" asp-route-category="科技">科技</a>
+                                </li>
+
+
+                                <!-- 军事 -->
+                                <li class="dropdown nav-item mega-dropdown">
+                                    <a asp-area="" asp-controller="Home" asp-action="category" asp-route-category="军事">军事</a>
+                                </li><!-- Video menu end -->
+                                <!--旅游-->
+                                <li>
+                                    <a asp-area="" asp-controller="Home" asp-action="category" asp-route-category="旅游">旅游</a>
+                                </li>
+
+
+                                <!-- 政治 -->
+                                <li class="dropdown">
+                                    <a asp-area="" asp-controller="Home" asp-action="category" asp-route-category="政治">政治</a>
+                                </li>
+
+
+                                <!-- 体育 -->
+                                <li><a asp-area="" asp-controller="Home" asp-action="category" asp-route-category="体育">体育</a></li>
+
+                                <!-- 管理 -->
+                                @if (SignInManager.IsSignedIn(User))
+                                {
+                                    <li><a asp-area="" asp-controller="manage" asp-action="default">新闻管理</a></li>
+                                    @*<li>
+                                        <a asp-area="" asp-controller="Manage" asp-action="Index" title="Manage">你好 @UserManager.GetUserName(User)!</a>
+                                    </li>*@
+                                    <li>
+                                        <a asp-area="" asp-controller="account" asp-action="Logout">登出 @UserManager.GetUserName(User)!</a>
+                                    </li>
+                                }
+                                else
+                                {
+                                    <li><a asp-area="" asp-controller="Account" asp-action="Register">注册</a></li>
+                                    <li><a asp-area="" asp-controller="Account" asp-action="Login">登录</a></li>
+
+                                }
+                            </ul><!--/ Nav ul end -->
+                        </div><!--/ Collapse end -->
+
+                    </div><!-- Site Navbar inner end -->
+                </nav><!--/ Navigation end -->
+                <!-- 新闻搜索 -->
+
+                <div class="nav-search">
+                    <a href="#search-popup" class="xs-modal-popup">
+                        <i class="icon icon-search1"></i>
+                    </a>
+                </div><!-- Search end -->
+
+                <div class="zoom-anim-dialog mfp-hide modal-searchPanel ts-search-form" id="search-popup">
+                    <div class="modal-dialog modal-lg">
+                        <div class="modal-content">
+                            <div class="xs-search-panel">
+                                <form class="ts-search-group"  asp-controller="Search" asp-action="Index" method="post">
+                                    <div class="input-group">
+                                        <input type="search" class="form-control" name="s" placeholder="Search" value="">
+                                        <button class="input-group-btn search-button">
+                                            <i class="icon icon-search1"></i>
+                                        </button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div><!-- End xs modal -->
+            </div>
+        </div><!--/ Row end -->
+    </div><!--/ Container end -->
+    <div class="gap-30 d-none d-lg-block"></div>
+
+    <div class="container">
+        @RenderBody()
+    </div>
+
+
+
+
+
+
+
+
+
+    <!-- newsletter start-->
+    <div class="newsletter-area">
+        <div class="container">
+            <div class="row ts-gutter-30 justify-content-center align-items-center">
+                <div class="col-lg-7 col-md-6">
+                    <div class="footer-loto">
+                        <a href="#">
+                            <img src="~/foreground/images/logos/logo-light.png" alt="">
+                        </a>
+                    </div>
+                </div>
+                <!-- col end -->
+                <div class="col-lg-5 col-md-6">
+                    <div class="footer-newsletter">
+                        <form action="#" method="post">
+                            <div class="email-form-group">
+                                <i class="news-icon fa fa-paper-plane" aria-hidden="true"></i>
+                                <input type="email" name="EMAIL" class="newsletter-email" placeholder="Your email" required>
+                                <input type="submit" class="newsletter-submit" value="Subscribe">
+                            </div>
+
+                        </form>
+                    </div>
+                </div>
+                <!-- col end -->
+            </div>
+            <!-- row  end -->
+        </div>
+        <!-- container end -->
+    </div>
+    <!-- ad banner end-->
+    <!-- ts-copyright start -->
+    <div class="ts-copyright">
+        <div class="container">
+            <div class="row align-items-center justify-content-between">
+                <div class="col-12 text-center">
+                    <div class="copyright-content text-light">
+                        <p>Copyright &copy; 2020.乾子.<a target="_blank" href="https://www.cnblogs.com/qzdd/">博客地址</a></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- ts-copyright end-->
+    <!-- backto -->
+    <div class="top-up-btn">
+        <div class="backto" style="display: block;">
+            <a href="#" class="icon icon-arrow-up" aria-hidden="true"></a>
+        </div>
+    </div>
+    <!-- backto end-->
+    <!-- Javascript Files
+    ================================================== -->
+    <!-- initialize jQuery Library -->
+    <script src="~/foreground/js/jquery.js"></script>
+    <!-- Popper Jquery -->
+    <script src="~/foreground/js/popper.min.js"></script>
+    <!-- Bootstrap jQuery -->
+    <script src="~/foreground/js/bootstrap.min.js"></script>
+    <!-- magnific-popup -->
+    <script src="~/foreground/js/jquery.magnific-popup.min.js"></script>
+    <!-- Owl Carousel -->
+    <script src="~/foreground/js/owl.carousel.min.js"></script>
+    <!-- Color box -->
+    <script src="~/foreground/js/jquery.colorbox.js"></script>
+    <!-- Template custom -->
+    <script src="~/foreground/js/custom.js"></script>
+    @RenderSection("Scripts", required: false)
+</body>
+</html>

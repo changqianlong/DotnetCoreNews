@@ -1,0 +1,53 @@
+@model QianziNews.Data.News
+
+<div class="panel-body">
+    <div class="form-group">
+        <label class="col-xs-3">新闻标题:</label>
+        <div class="col-xs-8">
+            <input class="form-control" asp-for="Title" />
+            <span asp-validation-for="Title" class="text-danger"></span>
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-xs-3">新闻来源:</label>
+        <div class="col-xs-6">
+            <input class="form-control" asp-for="Source" placeholder="可选" />
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-xs-3">发布者姓名:</label>
+        <div class="col-xs-4">
+            <input class="form-control" asp-for="Author" placeholder="可选" />
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-xs-3">新闻分类:</label>
+        <div class="col-xs-3">
+            <select asp-for="Category" class="form-control">
+                <option value="财经">财经</option>
+                <option value="政治">政治</option>
+                <option value="体育">体育</option>
+                <option value="科技">科技</option>
+                <option value="旅游">旅游</option>
+                <option value="军事">军事</option>
+                <option value="健康">健康</option>
+            </select>
+            <span asp-validation-for="Category" class="text-danger"></span>
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-xs-3">新闻内容</label>
+        <div class="col-xs-9">
+            <textarea asp-for="Content" class="form-control" rows="20"></textarea>
+            <span asp-validation-for="Content" class="text-danger"></span>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label class="col-xs-3">图片:</label>
+        <div class="col-xs-5">
+            <input type="file" name="files" multiple />
+        </div>
+    </div>
+
+</div>
